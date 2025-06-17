@@ -47,9 +47,7 @@ export async function CashFlowContent({
                     <LabelList />
                     <ChartTooltip
                         content={<ChartTooltipContent labelFormatter={(value, payload) => {
-                            console.log({ value, payload })
                             const month = payload[0]?.payload?.month
-                            const type = value
                             return <div>
                                 {format(new Date(today.getFullYear(), month - 1, 1), "MMM")}
                             </div>
