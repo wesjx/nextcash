@@ -16,13 +16,14 @@ export default function EditTransactionForm({ categories, transaction }: {
         amount: string,
         description: string,
         transactionDate: string,
+        isPaid: boolean
     }
 }) {
     const router = useRouter()
     const handleSubmit = async (data: z.infer<typeof transactionFormSchema>) => {
         const result = await updateTransaction({
             id: transaction.id,
-            amount: data.amount,
+            amount: data.amount.toString(),
             description: data.description,
             categoryId: data.categoryId,
             transactionDate: format(data.transactionDate, "yyyy-MM-dd" ) 
@@ -46,7 +47,8 @@ export default function EditTransactionForm({ categories, transaction }: {
             categoryId: transaction.categoryId,
             description: transaction.description,
             transactionDate: new Date(transaction.transactionDate),
-            transactionType: categories.find(category => category.id === transaction.categoryId)?.type ?? "income"
+            transactionType: categories.find(category => category.id === transaction.categoryId)?.type ?? "income",
+            isPaid: transaction.isPaid
         }} onSubmit={handleSubmit} categories={categories} />
     )
 }
