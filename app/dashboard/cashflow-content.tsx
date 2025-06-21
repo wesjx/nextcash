@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import numeral from "numeral";
 import { Bar, BarChart, CartesianGrid, LabelList, Legend, XAxis, YAxis } from "recharts";
 
-export async function CashFlowContent({
+export function CashFlowContent({
     annualCashFlow
 }: {
     annualCashFlow: { month: number; income: number; expenses: number }[]
@@ -46,12 +46,22 @@ export async function CashFlowContent({
                     }} />
                     <LabelList />
                     <ChartTooltip
-                        content={<ChartTooltipContent labelFormatter={(payload) => {
-                            const month = payload[0]?.payload?.month
-                            return <div>
-                                {format(new Date(today.getFullYear(), month - 1, 1), "MMM")}
-                            </div>
-                        }} />}
+                        content={
+                            <ChartTooltipContent
+                                labelFormatter={(value, payload) => {
+                                    const month = payload[0]?.payload?.month
+                                    console.log({ payload });
+                                    return (
+                                        <div>
+                                            {format(
+                                                new Date(today.getFullYear(), month - 1, 1),
+                                                "MMM"
+                                            )}
+                                        </div>
+                                    )
+                                }}
+                            />
+                        }
                     />
                     <Legend
                         verticalAlign="top"
